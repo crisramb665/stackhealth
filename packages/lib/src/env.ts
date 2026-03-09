@@ -1,30 +1,24 @@
 /**
  * Environment variable helpers.
  *
- * Next.js exposes NEXT_PUBLIC_* vars, Expo exposes EXPO_PUBLIC_* vars.
- * This module normalises access so shared code works in both runtimes.
+ * Next.js and Expo inline NEXT_PUBLIC_* / EXPO_PUBLIC_* env vars at build time,
+ * but only when accessed as literal property names (e.g. process.env.NEXT_PUBLIC_X).
+ * Dynamic access like process.env[key] is NOT replaced and will be undefined.
+ * Therefore we must reference each variable with its full literal name.
  */
-
-function getEnv(key: string): string | undefined {
-  // Node / Next.js
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key];
-  }
-  return undefined;
-}
 
 export function getSupabaseUrl(): string {
   const url =
-    getEnv('NEXT_PUBLIC_SUPABASE_URL') ??
-    getEnv('EXPO_PUBLIC_SUPABASE_URL');
+    process.env.NEXT_PUBLIC_SUPABASE_URL ??
+    process.env.EXPO_PUBLIC_SUPABASE_URL;
   if (!url) throw new Error('Missing SUPABASE_URL env var');
   return url;
 }
 
 export function getSupabasePublishableKey(): string {
   const key =
-    getEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY') ??
-    getEnv('EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY');
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!key) throw new Error('Missing SUPABASE_PUBLISHABLE_KEY env var');
   return key;
 }

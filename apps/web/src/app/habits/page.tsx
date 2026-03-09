@@ -4,6 +4,7 @@ import { useHabits } from '@stackhealth/hooks';
 
 export default function HabitsPage() {
   const { habits, streaks, loading, error, toggleHabitToday } = useHabits();
+  console.log({ habits, streaks });
 
   return (
     <main style={{ maxWidth: 800, margin: '0 auto', padding: '2rem' }}>

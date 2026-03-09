@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getSupabaseClient } from '@stackhealth/lib';
+import { getSupabaseClient, DEV_USER_ID } from '@stackhealth/lib';
 import { calculateStreak, toDateString } from '@stackhealth/lib';
 import type { Habit, HabitLog, HabitStreak } from '@stackhealth/types';
 
@@ -18,18 +18,18 @@ export function useHabits() {
     setLoading(true);
     setError(null);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        setError('Not authenticated');
-        return;
-      }
+      // TODO: Replace DEV_USER_ID with real auth once auth flow is built
+      const userId = DEV_USER_ID;
+      console.log('Fetching habits for user:', userId);
 
       const { data, error: dbError } = await supabase
         .from('habits')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('is_active', true)
         .order('created_at', { ascending: false });
+
+      console.log('Fetched habits:', data);
 
       if (dbError) throw dbError;
       setHabits(data ?? []);
@@ -65,15 +65,15 @@ export function useHabits() {
 
   const toggleHabitToday = useCallback(
     async (habitId: string) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      // TODO: Replace DEV_USER_ID with real auth once auth flow is built
+      const userId = DEV_USER_ID;
 
       const today = toDateString(new Date());
       const { data: existing } = await supabase
         .from('habit_logs')
         .select('id')
         .eq('habit_id', habitId)
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .gte('completed_at', `${today}T00:00:00`)
         .lte('completed_at', `${today}T23:59:59`)
         .limit(1);
@@ -83,7 +83,7 @@ export function useHabits() {
       } else {
         await supabase.from('habit_logs').insert({
           habit_id: habitId,
-          user_id: user.id,
+          user_id: userId,
           completed_at: new Date().toISOString(),
         });
       }

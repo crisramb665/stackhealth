@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getSupabaseClient } from '@stackhealth/lib';
+import { getSupabaseClient, DEV_USER_ID } from '@stackhealth/lib';
 import type { WorkoutSession } from '@stackhealth/types';
 
 /**
@@ -16,15 +16,13 @@ export function useWorkoutSessions() {
     setError(null);
     try {
       const supabase = getSupabaseClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        setError('Not authenticated');
-        return;
-      }
+      // TODO: Replace DEV_USER_ID with real auth once auth flow is built
+      const userId = DEV_USER_ID;
+
       const { data, error: dbError } = await supabase
         .from('workout_sessions')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .order('started_at', { ascending: false });
 
       if (dbError) throw dbError;
