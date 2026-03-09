@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+.next/
+.expo/
+out/
+build/
+
+# turbo
+.turbo/
+
+# env files
+.env
+.env.local
+.env.*.local
+
+# os
+.DS_Store
+Thumbs.db
+
+# ide
+.vscode/settings.json
+.idea/
+
+# supabase
+supabase/.temp/

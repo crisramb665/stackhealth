@@ -1,0 +1,31 @@
+{
+  "name": "@stackhealth/ui",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint src/",
+    "clean": "rm -rf dist node_modules .turbo"
+  },
+  "dependencies": {
+    "@stackhealth/types": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.73"
+  },
+  "peerDependenciesMeta": {
+    "react-native": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@stackhealth/eslint-config": "workspace:*",
+    "@stackhealth/typescript-config": "workspace:*",
+    "@types/react": "^18.2.0",
+    "react": "18.2.0",
+    "react-native": "0.74.7",
+    "typescript": "^5.4.0"
+  }
+}

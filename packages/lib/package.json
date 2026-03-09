@@ -1,0 +1,21 @@
+{
+  "name": "@stackhealth/lib",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint src/",
+    "clean": "rm -rf dist node_modules .turbo"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0"
+  },
+  "devDependencies": {
+    "@stackhealth/eslint-config": "workspace:*",
+    "@stackhealth/types": "workspace:*",
+    "@stackhealth/typescript-config": "workspace:*",
+    "@types/node": "^25.3.5",
+    "typescript": "^5.4.0"
+  }
+}
